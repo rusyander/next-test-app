@@ -7,11 +7,14 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "lint:types": "tsc --noEmit",
     "prettier": "prettier --write .",
     "server": "json-server --watch db.json --port 9999",
     "prisma": "npx prisma migrate dev",
     "docker": "docker compose up -d",
-    "test": "jest"
+    "test": "jest",
+    "e2e": "npx playwright test",
+    "test-gen": "npx playwright codegen"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
@@ -31,13 +34,15 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^6.4.8",
-    "@testing-library/react": "^16.0.0",
-    "@testing-library/user-event": "^14.5.2",
+    "@playwright/test": "^1.45.3",
+    "@testing-library/jest-dom": "^6.1.5",
+    "@testing-library/react": "^14.1.2",
+    "@testing-library/user-event": "^14.5.1",
     "@types/jest": "^29.5.12",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "dotenv": "^16.4.5",
     "eslint": "^8",
     "eslint-config-next": "14.2.5",
     "eslint-config-prettier": "^9.1.0",
