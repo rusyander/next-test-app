@@ -50,11 +50,6 @@ export default function CreateCourseForm({
   return (
     <Form {...form}>
       <form
-        // onSubmit={form.handleSubmit((data) => {
-        //   startCreateCourses(async () => {
-        //     await createCourseAction(data, revalidatePagePath);
-        //   });
-        // })}
         onSubmit={form.handleSubmit(handleCreateCourse)}
         className={cn("space-y-8", className)}
       >
