@@ -1,13 +1,8 @@
 import { test, expect } from "@playwright/test";
-
-test.beforeEach(async ({ page }) => {
-  await page.goto("http://localhost:3000/");
-});
-
 test.describe("courses-list", () => {
   test("create delete courses list", async ({ page }) => {
     await page.locator("body").click();
-
+    await page.goto("/");
     await page.getByPlaceholder("Имя").click();
     await page.getByPlaceholder("Имя").fill("Test course");
     await page.getByPlaceholder("Описание").click();
