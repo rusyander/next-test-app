@@ -62,7 +62,7 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
-  role          ROLE?
+  role          ROLE    @default(USER)
  
   @@map("users")
 }

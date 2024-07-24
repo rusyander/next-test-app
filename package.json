@@ -13,6 +13,7 @@
     "prisma": "npx prisma migrate dev",
     "prisma:generate": "npx prisma generate",
     "prisma:studio": "npx prisma studio",
+    "prisma:reset": "npx prisma migrate reset",
     "docker": "docker compose up -d",
     "test": "jest",
     "e2e": "npx playwright test",

@@ -7,6 +7,9 @@
   - You are about to drop the `VerificationToken` table. If the table is not empty, all the data it contains will be lost.
 
 */
+-- CreateEnum
+CREATE TYPE "ROLE" AS ENUM ('ADMIN', 'USER');
+
 -- DropForeignKey
 ALTER TABLE "Account" DROP CONSTRAINT "Account_userId_fkey";
 
@@ -57,9 +60,10 @@ CREATE TABLE "sessions" (
 CREATE TABLE "users" (
     "id" TEXT NOT NULL,
     "name" TEXT,
-    "email" TEXT,
+    "email" TEXT NOT NULL,
     "email_verified" TIMESTAMP(3),
     "image" TEXT,
+    "role" "ROLE" NOT NULL DEFAULT 'USER',
 
     CONSTRAINT "users_pkey" PRIMARY KEY ("id")
 );
