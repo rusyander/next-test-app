@@ -9,6 +9,8 @@ const privateConfigSchema = z.object({
   // EMAIL_SERVER_HOST: z.string().optional(),
   // EMAIL_SERVER_PORT: z.number().optional(),
   // EMAIL_FROM: z.string().optional(),
+
+  ADMIN_EMAILS: z.string().optional(),
 });
 
 export const privateConfig = privateConfigSchema.parse(process.env);

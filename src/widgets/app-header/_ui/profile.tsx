@@ -14,11 +14,11 @@ import { Button } from "@/shared/ui/button";
 import Link from "next/link";
 import { SignInButton } from "@/features/auth/sign-in-button.client";
 import { useSignOut } from "@/features/auth/use-sign-out";
-import { useSession } from "next-auth/react";
 import { AvatarFallback, Avatar, AvatarImage } from "@/shared/ui/avatar";
+import { useAppSession } from "@/entities/user/session-client";
 
 export function Profile() {
-  const session = useSession();
+  const session = useAppSession();
   const { signOut, isPending: isLoadingSignOut } = useSignOut();
 
   if (session.status === "loading") {
@@ -37,7 +37,7 @@ export function Profile() {
           className="p-px rounded-full self-center h-8 w-8"
         >
           <Avatar className="w-8 h-8">
-            <AvatarImage src={session.data?.user.image} />
+            <AvatarImage src={session.data?.user?.image ?? undefined} />
             <AvatarFallback>AC</AvatarFallback>
           </Avatar>
         </Button>
@@ -46,15 +46,15 @@ export function Profile() {
         <DropdownMenuLabel>
           <p>Мой аккаунт</p>
           <p className="text-xs text-muted-foreground overflow-hidden text-ellipsis">
-            {session.data?.user.name}
+            {session.data?.user?.name}
           </p>
         </DropdownMenuLabel>
         <DropdownMenuGroup></DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem asChild>
-            {/* <Link href={`/profile/${session.data?.user?.id}`}> */}
-            <Link href={`/profile/1`}>
+            <Link href={`/profile/${session.data?.user?.id}`}>
+              {/* <Link href={`/profile/1`}> */}
               <User className="mr-2 h-4 w-4" />
               <span>Профиль</span>
             </Link>

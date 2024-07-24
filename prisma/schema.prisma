@@ -13,11 +13,15 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model Course{
   id String @id @default(cuid())
   name String
   description String
+}
+
+enum ROLE {
+  ADMIN
+  USER
 }
 
 model Account {
@@ -53,11 +57,12 @@ model Session {
 model User {
   id            String    @id @default(cuid())
   name          String?
-  email         String?   @unique
+  email         String   @unique
   emailVerified DateTime? @map("email_verified")
   image         String?
   accounts      Account[]
   sessions      Session[]
+  role          ROLE?
  
   @@map("users")
 }
@@ -70,3 +75,4 @@ model VerificationToken {
   @@unique([identifier, token])
   @@map("verificationtokens")
 }
+
