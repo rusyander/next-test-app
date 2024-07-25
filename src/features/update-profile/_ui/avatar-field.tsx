@@ -2,10 +2,9 @@ import { Button } from "@/shared/ui/button";
 import { useMutation } from "@tanstack/react-query";
 // import { selectFile } from "@/shared/lib/file";
 import { Spinner } from "@/shared/ui/spinner";
-import { ProfileAvatar } from "@/entities/user/profile";
+import { Profile, ProfileAvatar } from "@/entities/user/profile";
 // import { uploadProfileImageAction } from "../_actions";
 // import { ProfileAvatar } from "@/entities/profile/ui/profile-avatar";
-// import { Profile } from "@/entities/profile/domain";
 
 export function AvatarField({
   value,
@@ -14,7 +13,7 @@ export function AvatarField({
 }: {
   value?: string;
   onChange: (value?: string) => void;
-  //   profile: Profile;
+  profile: Profile;
 }) {
   //   const uploadImage = useMutation({
   //     mutationFn: (file: File) => {

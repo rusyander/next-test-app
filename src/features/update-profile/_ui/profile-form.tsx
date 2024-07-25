@@ -18,6 +18,8 @@ import { Spinner } from "@/shared/ui/spinner";
 
 import { AvatarField } from "./avatar-field";
 import { Profile } from "@/entities/user/profile";
+import { useUpdateProfile } from "../_vm/use-update-profile";
+import { UserId } from "@/entities/user/user";
 
 const profileFormSchema = z.object({
   name: z
@@ -33,49 +35,57 @@ const profileFormSchema = z.object({
 
 const getDefaultValues = (profile: Profile) => {
   return {
+    email: profile.email,
     name: profile.name ?? "",
-    email: profile.email ?? "",
-    image: profile.image,
+    image: profile.image ?? undefined,
   };
 };
 
 type ProfileFormValues = z.infer<typeof profileFormSchema>;
 
 export function ProfileForm({
+  userId,
   profile,
   onSuccess,
   submitText = "Сохранить",
 }: {
+  userId: UserId;
   profile: Profile;
   onSuccess?: () => void;
   submitText?: string;
 }) {
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema),
-    defaultValues: {
-      email: profile.email,
-      name: profile.name ?? "",
-      image: profile.image ?? undefined,
-    },
+    defaultValues: getDefaultValues(profile),
   });
 
-  //   const updateProfile = useUpdateProfileMutation();
+  const { isPending, updateProfile } = useUpdateProfile();
 
-  function onSubmit(data: ProfileFormValues) {
-    // updateProfile.mutate(
-    //   { ...profile, ...data },
-    //   {
-    //     onSuccess: async (data) => {
-    //       form.reset(getDefaultValues(data));
-    //       onSuccess?.();
-    //     },
-    //   },
-    // );
-  }
+  // function onSubmit(data: ProfileFormValues) {
+  // const newProfile =   updateProfileMutation.mutate(
+  //     { userId, data },
+  //     {
+  //       onSuccess: async (data) => {
+  //         // form.reset(getDefaultValues(data));
+  //         form.reset();
+  //         onSuccess?.();
+  //       },
+  //     },
+  //   );
+  // }
+
+  const handleSubmit = form.handleSubmit(async (data) => {
+    const newProfile = await updateProfile({
+      userId,
+      data,
+    });
+    form.reset(getDefaultValues(newProfile.profile));
+    onSuccess?.();
+  });
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form onSubmit={handleSubmit} className="space-y-8">
         <FormField
           control={form.control}
           name="email"
@@ -114,24 +124,22 @@ export function ProfileForm({
                 <AvatarField
                   value={field.value}
                   onChange={field.onChange}
-                  //   profile={profile}
+                  profile={profile}
                 />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        {/* <Button type="submit" disabled={updateProfile.isPending}>
-          {updateProfile.isPending && (
+        <Button type="submit" disabled={isPending}>
+          {isPending && (
             <Spinner
               className="mr-2 h-4 w-4 animate-spin"
               area-label="Обновление профиля"
             />
           )}
           {submitText}
-        </Button> */}
-
-        <Button type="submit">{submitText}</Button>
+        </Button>
       </form>
     </Form>
   );

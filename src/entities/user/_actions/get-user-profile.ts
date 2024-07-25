@@ -3,15 +3,10 @@
 import { getUSerUseCase } from "../_use-cases/get-user";
 import { z } from "zod";
 import { getAppSessionStrictServer } from "../session.server";
+import { profileSchema } from "../_domain/schema";
 
 const propsSchema = z.object({
   userId: z.string(),
-});
-
-const profileSchema = z.object({
-  name: z.string().nullable().optional(),
-  email: z.string(),
-  image: z.string().nullable().optional(),
 });
 
 const resultSchema = z.object({

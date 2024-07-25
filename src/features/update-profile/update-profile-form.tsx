@@ -1,7 +1,6 @@
 "use client";
 import { useQuery } from "@tanstack/react-query";
 import { Spinner } from "@/shared/ui/spinner";
-// import { getProfileQuery } from "@/entities/profile/queries";
 import { useRouter } from "next/navigation";
 import { ProfileForm } from "./_ui/profile-form";
 import { getProfileQuery } from "@/entities/user/profile";
@@ -31,6 +30,7 @@ export function UpdateProfileForm({
 
   return (
     <ProfileForm
+      userId={userId}
       profile={profile.profile}
       onSuccess={handleSuccess}
       submitText={callbackUrl ? "Продолжить" : "Сохранить"}
