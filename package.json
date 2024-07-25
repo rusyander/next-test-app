@@ -19,7 +19,8 @@
     "e2e": "npx playwright test",
     "test-gen": "npx playwright codegen",
     "test:e2e": "npx prisma migrate reset --force && playwright test",
-    "update-content-schemas": "ts-node --project tsconfig.script.json ./scripts/upload-content-schema https://raw.githubusercontent.com/rusyander/content-schema/main/schemas/ ./src/shared/api/content/_schemas"
+    "update-content-schemas": "ts-node --project tsconfig.script.json ./scripts/upload-content-schema https://raw.githubusercontent.com/rusyander/content-schema/main/schemas/ ./src/shared/api/content/_schemas",
+    "postinstall": "patch-package"
   },
   "prisma": {
     "seed": "ts-node --project tsconfig.script.json prisma/seed.ts"

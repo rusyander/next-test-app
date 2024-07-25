@@ -1,6 +1,7 @@
 import { cache } from "react";
 import { CourseEntity } from "../_domain/types";
 import { contentApi } from "@/shared/api/content";
+import { logger } from "@/shared/lib/logger";
 
 class CoursesRepository {
   getCoursesList = cache(async (): Promise<CourseEntity[]> => {
@@ -17,19 +18,28 @@ class CoursesRepository {
       };
     };
 
-    const settledCourse = await Promise.allSettled(
+    const setteldCourses = await Promise.allSettled(
       manifest.courses.map(fetchCourse),
     );
 
-    settledCourse.forEach((promise) => {
-      if (promise.status === "rejected") {
-        console.error(promise.reason);
+    setteldCourses.forEach((value, i) => {
+      if (value.status === "rejected") {
+        logger.error({
+          msg: "Course by slug not found",
+          slug: manifest.courses[i],
+          erorr: value.reason,
+        });
       }
     });
 
-    return settledCourse
-      .filter((promise) => promise.status === "fulfilled")
-      .map((course) => course.value);
+    return setteldCourses
+      .filter(
+        (courseResult): courseResult is PromiseFulfilledResult<CourseEntity> =>
+          courseResult.status === "fulfilled",
+      )
+      .map((course) => {
+        return course.value;
+      });
   });
 }
 

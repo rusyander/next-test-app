@@ -1,6 +1,13 @@
 import Pino from "pino";
 
-export const logger = Pino();
+export const logger = Pino({
+  //   transport: {
+  //     target: "pino-pretty",
+  //     options: {
+  //       colorize: true,
+  //     },
+  //   },
+});
 
 export const loggedMethod = <A extends any[] = any[], R = any>({
   msg,
