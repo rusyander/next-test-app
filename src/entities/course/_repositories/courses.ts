@@ -1,34 +1,35 @@
-import { dbClient } from "@/shared/lib/db";
 import { cache } from "react";
 import { CourseEntity } from "../_domain/types";
-import { fetchManifest } from "@/shared/api/content";
-import { privateConfig } from "@/shared/config/private";
+import { contentApi } from "@/shared/api/content";
 
 class CoursesRepository {
   getCoursesList = cache(async (): Promise<CourseEntity[]> => {
-    const manifest = await fetchManifest();
-    console.log("***********************", manifest);
+    const manifest = await contentApi.fetchManifest();
 
-    return [
-      {
-        id: "1",
-        name: "Course 1",
-        description: "Description 1",
-        slug: "course-1",
-      },
-      {
-        id: "2",
-        name: "Course 2",
-        description: "Description 2",
-        slug: "course-2",
-      },
-      {
-        id: "3",
-        name: "Course 3",
-        description: "Description 3",
-        slug: "course-3",
-      },
-    ];
+    const fetchCourse = async (courseSlug: string): Promise<CourseEntity> => {
+      const course = await contentApi.fetchCourse(courseSlug);
+
+      return {
+        id: course.id,
+        title: course.title,
+        description: course.description,
+        slug: courseSlug,
+      };
+    };
+
+    const settledCourse = await Promise.allSettled(
+      manifest.courses.map(fetchCourse),
+    );
+
+    settledCourse.forEach((promise) => {
+      if (promise.status === "rejected") {
+        console.error(promise.reason);
+      }
+    });
+
+    return settledCourse
+      .filter((promise) => promise.status === "fulfilled")
+      .map((course) => course.value);
   });
 }
 
