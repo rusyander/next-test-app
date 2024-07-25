@@ -61,19 +61,6 @@ export function ProfileForm({
 
   const { isPending, updateProfile } = useUpdateProfile();
 
-  // function onSubmit(data: ProfileFormValues) {
-  // const newProfile =   updateProfileMutation.mutate(
-  //     { userId, data },
-  //     {
-  //       onSuccess: async (data) => {
-  //         // form.reset(getDefaultValues(data));
-  //         form.reset();
-  //         onSuccess?.();
-  //       },
-  //     },
-  //   );
-  // }
-
   const handleSubmit = form.handleSubmit(async (data) => {
     const newProfile = await updateProfile({
       userId,
