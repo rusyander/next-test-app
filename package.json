@@ -19,7 +19,7 @@
     "e2e": "npx playwright test",
     "test-gen": "npx playwright codegen",
     "test:e2e": "npx prisma migrate reset --force && playwright test",
-    "update-content-schemas": "ts-node --project tsconfig.script.json ./scripts/upload-content-schema https://raw.githubusercontent.com/rusyander/content-schema/main/schemas/ ./src/shared/api/content/schemas"
+    "update-content-schemas": "ts-node --project tsconfig.script.json ./scripts/upload-content-schema https://raw.githubusercontent.com/rusyander/content-schema/main/schemas/ ./src/shared/api/content/_schemas"
   },
   "prisma": {
     "seed": "ts-node --project tsconfig.script.json prisma/seed.ts"
@@ -38,6 +38,7 @@
     "@radix-ui/react-slot": "^1.1.0",
     "@sentry/nextjs": "^8.19.0",
     "@tanstack/react-query": "^5.51.11",
+    "ajv": "^6.12.6",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "cuid": "^3.0.0",
@@ -49,11 +50,14 @@
     "next-auth": "^4.24.7",
     "next-themes": "^0.3.0",
     "nodemailer": "^6.9.14",
+    "pino": "^9.3.2",
+    "pino-pretty": "^11.2.2",
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.52.1",
     "tailwind-merge": "^2.4.0",
     "tailwindcss-animate": "^1.0.7",
+    "yaml": "^2.5.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {
