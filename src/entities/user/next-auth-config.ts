@@ -6,6 +6,14 @@ import { compact } from "lodash-es";
 import { privateConfig } from "@/shared/config/private";
 import { createUserUseCase } from "./_use-cases/create-user";
 
+const emailToken = privateConfig.TEST_EMAIL_TOKEN
+  ? {
+      generateVerificationToken: () => privateConfig.TEST_EMAIL_TOKEN ?? "",
+      sendVerificationRequest: () =>
+        console.log("we don't send emails in test mode"),
+    }
+  : {};
+
 export const nextAuthConfig: AuthOptions = {
   adapter: {
     ...(PrismaAdapter(dbClient) as AuthOptions["adapter"]),
@@ -32,6 +40,7 @@ export const nextAuthConfig: AuthOptions = {
   },
   providers: compact([
     // EmailProvider({
+    //  ...emailToken,
     //   server: {
     //     host: privateConfig.EMAIL_SERVER_HOST,
     //     port: privateConfig.EMAIL_SERVER_PORT,
