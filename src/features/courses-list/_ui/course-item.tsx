@@ -1,21 +1,16 @@
 "use client";
-import React, { useTransition } from "react";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardFooter,
-} from "@/shared/ui/card";
-import { Button } from "@/shared/ui/button";
 import { CourseEntity } from "@/entities/course/course";
+import { useMdxComponent } from "@/shared/lib/mdx";
+import { Card, CardHeader, CardTitle } from "@/shared/ui/card";
 
-export default function CourseItem({ course }: { course: CourseEntity }) {
+export function CourseItem({ course }: { course: CourseEntity }) {
+  const Description = useMdxComponent(course.description);
+
   return (
     <Card>
       <CardHeader>
         <CardTitle>{course.title}</CardTitle>
-        <CardDescription>{course.description}</CardDescription>
+        <Description size="sm" />
       </CardHeader>
     </Card>
   );
