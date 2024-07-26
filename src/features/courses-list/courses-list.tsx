@@ -1,23 +1,8 @@
 import React from "react";
-import { CourseItem } from "./_ui/course-item";
-import { coursesRepository } from "../../entities/course/_repositories/courses";
-import { compileMDX } from "@/shared/lib/mdx/server";
+import CoursesListClient from "./_ui/courses-list";
+import { coursesListServerApi } from "./controller";
 
 export default async function CoursesList() {
-  const coursesList = await coursesRepository.getCoursesList();
-
-  const compiledCourses = await Promise.all(
-    coursesList.map(async (course) => ({
-      ...course,
-      description: await compileMDX(course.description).then((r) => r.code),
-    })),
-  );
-
-  return (
-    <div className="flex flex-col gap-3">
-      {compiledCourses.map((course) => (
-        <CourseItem key={course.id} course={course} />
-      ))}
-    </div>
-  );
+  const coursesList = await coursesListServerApi.coursesListRouter.get.fetch();
+  return <CoursesListClient coursesList={coursesList} />;
 }
