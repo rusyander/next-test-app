@@ -4,7 +4,8 @@ import GithubProvider from "next-auth/providers/github";
 import { dbClient } from "@/shared/lib/db";
 import { compact } from "lodash-es";
 import { privateConfig } from "@/shared/config/private";
-import { createUserServices } from "./_servises/create-user";
+import { ROLES, SharedUser } from "@/kernel/domain/user";
+import { createId } from "@/shared/lib/id";
 
 const emailToken = privateConfig.TEST_EMAIL_TOKEN
   ? {
@@ -17,8 +18,19 @@ const emailToken = privateConfig.TEST_EMAIL_TOKEN
 export const nextAuthConfig: AuthOptions = {
   adapter: {
     ...(PrismaAdapter(dbClient) as AuthOptions["adapter"]),
-    createUser: (user) => {
-      return createUserServices.exec(user);
+    createUser: async (data) => {
+      const adminEmails = privateConfig.ADMIN_EMAILS?.split(",") ?? [];
+      const role = adminEmails.includes(data.email) ? ROLES.ADMIN : ROLES.USER;
+
+      const user: SharedUser = {
+        id: createId(),
+        role,
+        ...data,
+      };
+
+      return await dbClient.user.create({
+        data: user as any,
+      });
     },
   } as AuthOptions["adapter"],
   callbacks: {
@@ -28,7 +40,7 @@ export const nextAuthConfig: AuthOptions = {
         user: {
           ...session.user,
           id: user.id,
-          role: user.role,
+          // role: user?.role,
         },
       };
     },

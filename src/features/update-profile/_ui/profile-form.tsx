@@ -19,7 +19,7 @@ import { Spinner } from "@/shared/ui/spinner";
 import { AvatarField } from "./avatar-field";
 import { Profile } from "@/entities/user/profile";
 import { useUpdateProfile } from "../_vm/use-update-profile";
-import { UserId } from "@/entities/user/user";
+import { UserId } from "@/kernel/domain/user";
 
 const profileFormSchema = z.object({
   name: z
