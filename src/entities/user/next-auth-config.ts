@@ -4,7 +4,7 @@ import GithubProvider from "next-auth/providers/github";
 import { dbClient } from "@/shared/lib/db";
 import { compact } from "lodash-es";
 import { privateConfig } from "@/shared/config/private";
-import { createUserUseCase } from "./_use-cases/create-user";
+import { createUserServices } from "./_servises/create-user";
 
 const emailToken = privateConfig.TEST_EMAIL_TOKEN
   ? {
@@ -18,7 +18,7 @@ export const nextAuthConfig: AuthOptions = {
   adapter: {
     ...(PrismaAdapter(dbClient) as AuthOptions["adapter"]),
     createUser: (user) => {
-      return createUserUseCase.exec(user);
+      return createUserServices.exec(user);
     },
   } as AuthOptions["adapter"],
   callbacks: {

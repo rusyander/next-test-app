@@ -1,6 +1,6 @@
 "use server";
 
-import { getUSerUseCase } from "../_use-cases/get-user";
+import { getUserServices } from "../_servises/get-user";
 import { z } from "zod";
 import { getAppSessionStrictServer } from "../session.server";
 import { profileSchema } from "../_domain/schema";
@@ -19,7 +19,7 @@ export const getUserProfileAction = async (
   const { userId } = propsSchema.parse(props);
   const session = await getAppSessionStrictServer();
 
-  const user = await getUSerUseCase.exec({
+  const user = await getUserServices.exec({
     userId,
     session,
   });

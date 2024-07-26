@@ -5,10 +5,10 @@ import { privateConfig } from "@/shared/config/private";
 
 type GetCoursesList = {};
 
-export class GetCoursesListUseCase {
+export class GetCoursesListServices {
   async exec(data?: GetCoursesList) {
     return coursesRepository.getCoursesList();
   }
 }
 
-export const getCoursesListUseCase = new GetCoursesListUseCase();
+export const getCoursesListServices = new GetCoursesListServices();

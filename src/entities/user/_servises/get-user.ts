@@ -8,7 +8,7 @@ type GetUser = {
   session: SessionEntity;
 };
 
-export class GetUserUseCase {
+export class GetUserServices {
   async exec({ userId, session }: GetUser): Promise<UserEntity> {
     const ability = createUserAbility(session).canGetUser(userId);
     if (!ability) {
@@ -19,4 +19,4 @@ export class GetUserUseCase {
   }
 }
 
-export const getUSerUseCase = new GetUserUseCase();
+export const getUserServices = new GetUserServices();
