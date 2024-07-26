@@ -1,4 +1,4 @@
-import AppHeader from "@/widgets/app-header/app-header";
+import AppHeader from "../_widgets/app-header/app-header";
 import AuthorizedGuard from "@/features/auth/authorized-guard";
 
 export default async function Layout({
